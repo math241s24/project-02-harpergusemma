@@ -32,6 +32,8 @@ To create an interactive visualization that allows people to explore how various
 
 We chose these data because we think it provides a lot of information across both spatial and temporal scales about salmon populations that could reflect some interesting environmental and political variables and that could make for an interesting visualization. We all have pretty environmentally focused interests, so we thought it could be cool to examine an environmental question for this project.
 
+The variables included in the Alaska Fish Tickets dataset are all quite useful for our analysis. For every year from 1985 to 2023, there are observations for multiple rivers across the Bristol Bay area that include the counts of pounds of landed salmon, their estimated fish counts, and the counts of fishing vessels, processors, and issued permits. This dataset is not tidy, as there are multiple observations for each year, so we'll need to widen it so that one observation is a single year and the different rivers are all columns.
+
 ## Questions and Analysis Plan
 
 Our question: How do different fish populations change over time in Bristol Bay in accordance with different policy changes?
