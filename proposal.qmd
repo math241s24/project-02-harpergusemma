@@ -25,7 +25,7 @@ library(tidyverse)
 
 ## Reason for Choosing this Dataset
 
-Our goal for this project is XXX. (here we need to put in our high level goal). We chose this data because we think it provides a lot of information across both spatial and temporal scales about fish populations that could reflect some interesting environmental and political variables and that could make for an interesting visualization. We all have pretty environmentally focused interests, so we thought it could be cool to examine an environmental question for this project.
+Our goal for this project is to create an interactive visualization that allows people to explore how various environmental factors and policy changes affect the salmon population in Bristol Bay. We chose these data because we think it provides a lot of information across both spatial and temporal scales about fish populations that could reflect some interesting environmental and political variables and that could make for an interesting visualization. We all have pretty environmentally focused interests, so we thought it could be cool to examine an environmental question for this project.
 
 ## Questions and Analysis Plan
 
