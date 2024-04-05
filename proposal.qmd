@@ -29,12 +29,10 @@ To create an interactive visualization that allows people to explore how various
 
 ## Reason for Choosing this Dataset
 
-We chose these data because we think it provides a lot of information across both spatial and temporal scales about fish populations that could reflect some interesting environmental and political variables and that could make for an interesting visualization. We all have pretty environmentally focused interests, so we thought it could be cool to examine an environmental question for this project.
+We chose these data because we think it provides a lot of information across both spatial and temporal scales about salmon populations that could reflect some interesting environmental and political variables and that could make for an interesting visualization. We all have pretty environmentally focused interests, so we thought it could be cool to examine an environmental question for this project.
 
 ## Questions and Analysis Plan
 
 Our question: How do different fish populations change over time in Bristol Bay in accordance with different policy changes?
 
-Our plan to answer this question is to merge the different datasets containing information about fish populations, add a variable depicting what policies were in place during the times that each
-
-Our plan to answer this question is to merge the different datasets containing information about fish populations, add a variable depicting what policies were in place during the times that each population was measured, and then we plan to create an interactive map that shows how the populations changed over time using leaflet that will be organized by different fish populations and different policies in place.
+Our plan to answer this question is to merge the different datasets containing information about fish populations, add a variable depicting what policies were in place during the times that each population was measured, and then we plan to create an interactive map that shows how the populations changed over time using leaflet that will be organized by different salmon populations and different policies in place.
