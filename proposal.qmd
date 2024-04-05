@@ -31,4 +31,4 @@ Our goal for this project is XXX. (here we need to put in our high level goal). 
 
 Our question: How do different fish populations change over time in Bristol Bay in accordance with different policy changes? 
 
-Our plan to answer this question is to merge the different datasets containing information about fish populations, add a variable depicting what policies were in place during the times that each 
+Our plan to answer this question is to merge the different datasets containing information about fish populations, add a variable depicting what policies were in place during the times that each population was measured, and then we plan to create an interactive map that shows how the populations changed over time using leaflet that will be organized by different fish populations and different policies in place. 
