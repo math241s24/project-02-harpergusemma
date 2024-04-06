@@ -39,3 +39,31 @@ The variables included in the Alaska Fish Tickets dataset are all quite useful f
 Our question: How do different fish populations change over time in Bristol Bay in accordance with different policy changes?
 
 Our plan to answer this question is to merge the different datasets containing information about fish populations, add a variable depicting what policies were in place during the times that each population was measured, and then we plan to create an interactive map that shows how the populations changed over time using leaflet that will be organized by different salmon populations and different policies in place.
+
+## Plan of Attack
+
+Week 11:
+
+-   Tidy the dataset (Harper)
+
+-   Identify relevant policy changes around Bristol Bay (Gus)
+
+-   Get environmental data to associate with salmon data (Emma)
+
+-   Draft the code for visualization (Everyone)
+
+Week 12:
+
+-   Get peer reviewed
+
+-   Draft writeup (Harper & Gus)
+
+-   Finalize code (Everyone)
+
+Week 13:
+
+-   Develop presentation (Emma)
+
+-   Present the project
+
+-   Continue working on writeup (Everyone)
