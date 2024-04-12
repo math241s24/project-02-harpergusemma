@@ -2,37 +2,37 @@
   {
     "objectID": "proposal.html",
     "href": "proposal.html",
-    "title": "Project 2",
+    "title": "Fish populations in Bristol Bay, AK",
     "section": "",
-    "text": "library(tidyverse)"
+    "text": "library(tidyverse)\nlibrary(readr)"
   },
   {
     "objectID": "proposal.html#dataset",
     "href": "proposal.html#dataset",
-    "title": "Project 2",
+    "title": "Fish populations in Bristol Bay, AK",
     "section": "Dataset",
-    "text": "Dataset\n\n## read data"
+    "text": "Dataset\n\nbristolbaydata &lt;- read.csv(\"salmondata/Alaska Statewide Salmon Landings by Area and Species 1985-present Fish Tickets.csv\")"
   },
   {
     "objectID": "proposal.html#reason-for-choosing-this-dataset",
     "href": "proposal.html#reason-for-choosing-this-dataset",
-    "title": "Project 2",
+    "title": "Fish populations in Bristol Bay, AK",
     "section": "Reason for Choosing this Dataset",
-    "text": "Reason for Choosing this Dataset"
+    "text": "Reason for Choosing this Dataset\nWe chose these data because we think it provides a lot of information across both spatial and temporal scales about salmon populations that could reflect some interesting environmental and political variables and that could make for an interesting visualization. We all have pretty environmentally focused interests, so we thought it could be cool to examine an environmental question for this project.\nThe variables included in the Alaska Fish Tickets dataset are all quite useful for our analysis. For every year from 1985 to 2023, there are observations for multiple rivers across the Bristol Bay area that include the counts of pounds of landed salmon, their estimated fish counts, and the counts of fishing vessels, processors, and issued permits. This dataset is not tidy, as there are multiple observations for each year, so we’ll need to widen it so that one observation is a single year and the different rivers are all columns."
   },
   {
     "objectID": "proposal.html#questions-and-analysis-plan",
     "href": "proposal.html#questions-and-analysis-plan",
-    "title": "Project 2",
+    "title": "Fish populations in Bristol Bay, AK",
     "section": "Questions and Analysis Plan",
-    "text": "Questions and Analysis Plan"
+    "text": "Questions and Analysis Plan\nOur question: How do different fish populations change over time in Bristol Bay in accordance with different policy changes?\nOur plan to answer this question is to merge the different datasets containing information about fish populations, add a variable depicting what policies were in place during the times that each population was measured, and then we plan to create an interactive map that shows how the populations changed over time using leaflet that will be organized by different salmon populations and different policies in place."
   },
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "Your project title",
+    "title": "Salmon of Bristol Bay",
     "section": "",
-    "text": "This project was developed by XX. For MATH/STAT241 at Reed College. The team is comprised of the following team members."
+    "text": "This project was developed by Gus Compton, Emma Campbell, and Harper Lethin for MATH/STAT241 at Reed College."
   },
   {
     "objectID": "index.html",
@@ -47,5 +47,19 @@
     "title": "",
     "section": "Introduction",
     "text": "Introduction"
+  },
+  {
+    "objectID": "proposal.html#high-level-goal",
+    "href": "proposal.html#high-level-goal",
+    "title": "Fish populations in Bristol Bay, AK",
+    "section": "High Level Goal",
+    "text": "High Level Goal\nTo create an interactive visualization that allows people to explore how various environmental factors and policy changes affect the salmon population in Bristol Bay."
+  },
+  {
+    "objectID": "proposal.html#plan-of-attack",
+    "href": "proposal.html#plan-of-attack",
+    "title": "Fish populations in Bristol Bay, AK",
+    "section": "Plan of Attack",
+    "text": "Plan of Attack\nWeek 11:\n\nTidy the dataset (Harper)\nIdentify relevant policy changes around Bristol Bay (Gus)\nGet environmental data to associate with salmon data (Emma)\nDraft the code for visualization (Everyone)\n\nWeek 12:\n\nGet peer reviewed\nDraft writeup (Harper & Gus)\nFinalize code (Everyone)\n\nWeek 13:\n\nDevelop presentation (Emma)\nPresent the project\nContinue working on writeup (Everyone)"
   }
 ]
