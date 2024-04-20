@@ -1,0 +1,30 @@
+```{r, message=FALSE, warning=FALSE}
+
+
+# Load necessary libraries
+library(tidyverse)
+
+
+```
+
+
+```{r}
+salmon <- read_csv("salmondata/rawsalmon.csv")
+view(salmon)
+
+salmon <- salmon %>% rename(species = `Species Name`,
+                            num_fish = `Number Of Fish (estimated)`,
+                            land_weight = `Landed Weight (lbs)`,
+                            whole_weight = `Whole Weight (lbs)`,
+                            num_permit = `Permit Count`,
+                            num_processor = `Processor Count`,
+                            num_vessel = `Vessel Count`)
+write.csv(salmon, "salmondata/salmon.csv")
+```
+
+```{r}
+ggplot(salmon, aes(x = Year, y = num_fish))+
+  geom_line(stat = "identity", aes(color = sp_name))
+```
+
+
