@@ -1,12 +1,18 @@
 {
-  "hash": "db259544fb70801276df520cf81aea96",
+  "hash": "91119153cd7d1c61c3c70e7196edba88",
   "result": {
-    "markdown": "---\ntitle: \"Project title\"\nsubtitle: \"Project 2\"\nauthor: \"Team\"\ntitle-slide-attributes:\n  data-slide-number: none\nformat: revealjs\neditor: visual\nexecute:\n  echo: false\n---\n\n\n\n\n\n\n",
-    "supporting": [],
+    "markdown": "---\ntitle: \"Alaska Salmon Populations and Regulations\"\nsubtitle: \"Project 2\"\nauthor: \"Emma Campbell, Harper Lethin, Gus Compton\"\ntitle-slide-attributes:\n  data-slide-number: none\nformat:\n  revealjs\nfilters:\n  - shinylive\neditor: visual\nexecute:\n  echo: false\n---\n\n\n\n\n\n\n\n\n\n\n## Alaska and Salmon\n\n## Background\n\n## Methods: Text Analysis\n\n##Methods: Shiny App\n\n##Results: Text Analysis\n\n##Results: Shiny App\n```{shinylive-r}\nui <- page_sidebar(\n  sidebar = sidebar(\n    varSelectInput(\"xvar\", \"X variable\", salmon, selected = \"Year\"),\n    varSelectInput(\"yvar\", \"Y variable\", salmon, selected = \"num_fish\"),\n    checkboxGroupInput(\n      \"species\", \"Filter by species\",\n      choices = unique(salmon$species), \n      selected = unique(salmon$species)\n    ),\n    hr(), # Add a horizontal rule\n    checkboxInput(\"by_species\", \"Show species\", TRUE),\n  ),\n  plotOutput(\"distPlot\")\n)\n\nserver <- function(input, output, session) {\n  subsetted <- reactive({\n    req(input$species)\n    salmon |> filter(species %in% input$species)\n  })\n\n  output$distPlot <- renderPlot({\n    p <- ggplot(subsetted(), aes(!!input$xvar, !!input$yvar)) + list(\n      theme(legend.position = \"bottom\"),\n      if (input$by_species) aes(fill = species),\n      geom_histogram(stat = \"identity\")\n    )\n\n\n    p\n  }, res = 100)\n}\n\nshinyApp(ui, server)\n```",
+    "supporting": [
+      "presentation_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],
-    "includes": {},
+    "includes": {
+      "include-after-body": [
+        "\n<script>\n  // htmlwidgets need to know to resize themselves when slides are shown/hidden.\n  // Fire the \"slideenter\" event (handled by htmlwidgets.js) when the current\n  // slide changes (different for each slide format).\n  (function () {\n    // dispatch for htmlwidgets\n    function fireSlideEnter() {\n      const event = window.document.createEvent(\"Event\");\n      event.initEvent(\"slideenter\", true, true);\n      window.document.dispatchEvent(event);\n    }\n\n    function fireSlideChanged(previousSlide, currentSlide) {\n      fireSlideEnter();\n\n      // dispatch for shiny\n      if (window.jQuery) {\n        if (previousSlide) {\n          window.jQuery(previousSlide).trigger(\"hidden\");\n        }\n        if (currentSlide) {\n          window.jQuery(currentSlide).trigger(\"shown\");\n        }\n      }\n    }\n\n    // hookup for slidy\n    if (window.w3c_slidy) {\n      window.w3c_slidy.add_observer(function (slide_num) {\n        // slide_num starts at position 1\n        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);\n      });\n    }\n\n  })();\n</script>\n\n"
+      ]
+    },
     "engineDependencies": {},
     "preserve": {},
     "postProcess": true

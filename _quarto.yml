@@ -17,6 +17,8 @@ website:
         href: presentation.qmd
       - text: "About"
         href: about.qmd
+      - text: "Shiny App"
+        href: ShinyApp.qmd
 
 format:
   html:
@@ -25,4 +27,5 @@ format:
 
 execute:
   freeze: auto
+  
 

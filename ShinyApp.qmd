@@ -1,68 +1,24 @@
 ---
-title: "Alaska Salmon Populations and Regulations"
-subtitle: "Project 2"
-author: "Emma Campbell, Harper Lethin, Gus Compton"
-title-slide-attributes:
-  data-slide-number: none
-format: revealjs
-server: shiny
-highlight-style: a11y
-execute:
-  code-link: true
-  echo: true
-editor_options: 
-  chunk_output_type: console
-  message: false
+title: "Salmon Data in Alaska"
+format:
+  html:
+    grid: 
+      body-width: 1300px
+    resources: 
+      - shinylive-sw.js
+filters:
+  - shinylive
 ---
 
-```{r}
-#| label: load-packages
-#| include: false
-
-library(tidyverse)
-library(tidymodels)
-library(openintro)
-library(mdsr)
-library(mosaicData)
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 600
 library(shiny)
-library(bslib)
-library(ggExtra)
-```
+library(tidyverse)
+library(readr)
 
-```{r}
-#| label: setup
-#| include: false
-
-# For better figure resolution
-knitr::opts_chunk$set(
-  fig.retina = 3, 
-  dpi = 300, 
-  fig.width = 6, 
-  fig.asp = 0.618, 
-  out.width = "70%"
-  )
-```
-
-```{r}
-#| label: load-data
-#| include: false
 salmon <- read_csv("salmondata/salmon.csv")
-```
 
-
-
-## Alaska and Salmon
-
-## Background
-
-## Methods: Text Analysis
-
-##Methods: Shiny App
-
-##Results: Text Analysis
-
-##Results: Shiny App
-```{r, include = False}
 ui <- page_sidebar(
   sidebar = sidebar(
     varSelectInput("xvar", "X variable", salmon, selected = "Year"),
@@ -98,3 +54,4 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 ```
+
