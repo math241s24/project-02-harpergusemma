@@ -43,6 +43,7 @@ knitr::opts_chunk$set(
 #| include: false
 salmon <- read_csv("salmondata/salmon.csv")
 ```
+
 ```{r}
 #| label: Shiny App
 #| include: true
@@ -82,4 +83,3 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 ```
-
