@@ -1,18 +1,13 @@
 ---
-title: "Alaska Salmon Populations and Regulations"
+title: "Bristol Bay Salmono"
 subtitle: "Project 2"
 author: "Emma Campbell, Harper Lethin, Gus Compton"
 title-slide-attributes:
   data-slide-number: none
 format: revealjs
-server: shiny
-highlight-style: a11y
+editor: visual
 execute:
-  code-link: true
-  echo: true
-editor_options: 
-  chunk_output_type: console
-  message: false
+  echo: false
 ---
 
 ```{r}
@@ -49,20 +44,10 @@ knitr::opts_chunk$set(
 salmon <- read_csv("salmondata/salmon.csv")
 ```
 
+```{r}
+#| label: Shiny App
+#| include: true
 
-
-## Alaska and Salmon
-
-## Background
-
-## Methods: Text Analysis
-
-##Methods: Shiny App
-
-##Results: Text Analysis
-
-##Results: Shiny App
-```{r, include = False}
 ui <- page_sidebar(
   sidebar = sidebar(
     varSelectInput("xvar", "X variable", salmon, selected = "Year"),
