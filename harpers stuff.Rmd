@@ -31,16 +31,43 @@ view(legis_7)
 combined_legis <- legis %>%
   group_by(Legislature) %>%
   summarise(Combined_Text = paste(FULL_TEXT, collapse = " ! "))
-lineee <- combined_legis$Combined_Text[1] %>%
+
+lineee <- combined_legis$Combined_Text[10] %>%
   str_split("(?<=\\.)\\s*") %>% # specify the end-of-line character(s)
   pluck(1) 
 legis_1 <- lineee %>%
-  str_subset("fish")
+  str_subset("fisher")
 length(legis_1)
 
 
 ```
 
+```{r}
+fishes <- data.frame(
+  legislature = c(18, 19, 20, 21, 22, 23, 24, 25, 26, 27), 
+  fishcount = c(88, 133, 280, 149, 120, 54, 161, 91, 31, 22), 
+  year = c(1993, 1995, 1997, 1999, 2001, 2003, 2005, 2007, 2009, 2011)
+)
+plot <- ggplot(data = fishes, aes(x = legislature, y = fishcount)) + 
+  geom_line() +
+  scale_x_continuous(breaks = c(18, 19, 20, 21, 22, 23, 24, 25, 26, 27)) +
+  labs(
+    title = "Times 'fish' is mentioned in Alaska legislature from 1993-2012", 
+    y = "'fish' mentioned", 
+    x = "Legislature number"
+  )
+plot
+```
+
+
+```{r}
+salmon <- read_csv("salmondata/salmon.csv")
+view(salmon)
+```
+
+```{r}
+
+```
 
 
 
