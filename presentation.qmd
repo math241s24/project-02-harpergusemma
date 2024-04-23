@@ -46,10 +46,30 @@ salmon <- read_csv("salmondata/salmon.csv")
 
 ## Background
 
-## Methods: Text Analysis
+Commercial fishing in Alaska is a huge industry, as salmon is the main export product of the state after oil and natural gas. Commercial fishing contributes \~5% of Alaska's economy.
 
-## Methods: Salmon Data
+Salmon harvest in Alaska accounts for \~80% of the total North American wild-caught salmon.
 
-## Results: Text Analysis
+Commercial fishing regulation changes combined with salmon habitat destruction and climate change leave fishermen constantly speculating about the effects of regulation changes on salmon populations.
+
+## Methods: Salmon Data, Text Analysis
+
+Salmon data from Alaska Department of Fish and Game
+
+-every observation is one species of fish in one area of Alaska during one year
+
+-number of fish, landed weight of fish, number of commercial fishing permits issued, number of processors, number of fishing vessels
+
+## Methods: Salmon Data, Text Analysis
+
+Commercial fishing regulation data in Alaska doesn't exist, but
+
+The AK Legislature has a system of websites that show every single resolution and bill passed from the 18th legislature (1993) to the 33rd legislature (2023).
+
+## Methods: Salmon Data, Text Analysis
+
+![](aklegpic.png)
 
 ## Results: Salmon Data
+
+![](fishcount.png){fig-align="center"}

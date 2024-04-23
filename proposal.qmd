@@ -21,7 +21,7 @@ library(readr)
 #| label: load-data
 #| message: false
 
-bristolbaydata <- read.csv("salmondata/Alaska Statewide Salmon Landings by Area and Species 1985-present Fish Tickets.csv")
+bristolbaydata <- read.csv("salmondata/rawsalmon.csv")
 ```
 
 ## High Level Goal
