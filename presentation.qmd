@@ -72,4 +72,10 @@ The AK Legislature has a system of websites that show every single resolution an
 
 ## Results: Salmon Data
 
+![](billwordfreq.png)
+
+## Results: Salmon Data
+
 ![](fishcount.png){fig-align="center"}
+
+## Results: Shiny App

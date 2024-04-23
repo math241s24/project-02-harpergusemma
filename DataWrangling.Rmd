@@ -101,7 +101,7 @@ salmontextanalysisdf %>%
   ggplot(aes(y = fct_reorder(word, n), x = n, fill = log(n))) +
   geom_col(show.legend = FALSE) +
   labs(
-    title = "Frequency of words in Alaksa Department of Fish and Game bills",
+    title = "Frequency of words in Alaska Department of Fish and Game bills",
     subtitle = "Words occurring more than 50,000 times",
     y = NULL, x = NULL
   )
