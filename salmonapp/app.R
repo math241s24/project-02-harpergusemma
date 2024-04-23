@@ -10,14 +10,13 @@
 library(shiny)
 library(tidyverse)
 library(readr)
+library(bslib)
+library(ggExtra)
 
-salmon <- read_csv("salmondata/salmon.csv")
+salmon <- read_csv("salmon.csv")
 
-
-ui <- fluidPage(
-  titlePanel("Salmon data in different areas of Alaska"),
-  sidebarLayout(
-    sidebarPanel(
+ui <- page_sidebar(
+  sidebar = sidebar(
     varSelectInput("xvar", "X variable", salmon, selected = "Year"),
     varSelectInput("yvar", "Y variable", salmon, selected = "num_fish"),
     checkboxGroupInput(
@@ -28,11 +27,8 @@ ui <- fluidPage(
     hr(), # Add a horizontal rule
     checkboxInput("by_species", "Show species", TRUE),
   ),
-  mainPanel(
-    plotOutput("distPlot")
-  )
-  ))
-
+  plotOutput("distPlot")
+)
 
 server <- function(input, output, session) {
   subsetted <- reactive({
