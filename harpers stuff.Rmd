@@ -1,0 +1,47 @@
+---
+title: "Untitled"
+output: html_document
+date: "2024-04-23"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(stringr)
+```
+
+
+```{r}
+legis <- read_csv("fish_and_game.csv")
+view(legis)
+legis_line <- legis$FULL_TEXT[7] %>%
+  str_split("(?<=\\.)\\s*") %>% # specify the end-of-line character(s)
+  pluck(1) 
+legis_7 <- legis_line %>%
+  str_subset("fish")
+view(legis_7)
+
+```
+
+
+```{r}
+combined_legis <- legis %>%
+  group_by(Legislature) %>%
+  summarise(Combined_Text = paste(FULL_TEXT, collapse = " ! "))
+lineee <- combined_legis$Combined_Text[1] %>%
+  str_split("(?<=\\.)\\s*") %>% # specify the end-of-line character(s)
+  pluck(1) 
+legis_1 <- lineee %>%
+  str_subset("fish")
+length(legis_1)
+
+
+```
+
+
+
+
+
