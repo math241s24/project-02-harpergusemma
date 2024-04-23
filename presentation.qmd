@@ -1,5 +1,5 @@
 ---
-title: "Bristol Bay Salmono"
+title: "Bristol Bay Salmon"
 subtitle: "Project 2"
 author: "Emma Campbell, Harper Lethin, Gus Compton"
 title-slide-attributes:
@@ -44,42 +44,12 @@ knitr::opts_chunk$set(
 salmon <- read_csv("salmondata/salmon.csv")
 ```
 
-```{r}
-#| label: Shiny App
-#| include: true
+## Background
 
-ui <- page_sidebar(
-  sidebar = sidebar(
-    varSelectInput("xvar", "X variable", salmon, selected = "Year"),
-    varSelectInput("yvar", "Y variable", salmon, selected = "num_fish"),
-    checkboxGroupInput(
-      "species", "Filter by species",
-      choices = unique(salmon$species), 
-      selected = unique(salmon$species)
-    ),
-    hr(), # Add a horizontal rule
-    checkboxInput("by_species", "Show species", TRUE),
-  ),
-  plotOutput("distPlot")
-)
+## Methods: Text Analysis
 
-server <- function(input, output, session) {
-  subsetted <- reactive({
-    req(input$species)
-    salmon |> filter(species %in% input$species)
-  })
+## Methods: Salmon Data
 
-  output$distPlot <- renderPlot({
-    p <- ggplot(subsetted(), aes(!!input$xvar, !!input$yvar)) + list(
-      theme(legend.position = "bottom"),
-      if (input$by_species) aes(fill = species),
-      geom_histogram(stat = "identity")
-    )
+## Results: Text Analysis
 
-
-    p
-  }, res = 100)
-}
-
-shinyApp(ui, server)
-```
+## Results: Salmon Data
