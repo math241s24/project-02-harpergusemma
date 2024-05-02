@@ -11,7 +11,7 @@
     "href": "proposal.html#dataset",
     "title": "Fish populations in Bristol Bay, AK",
     "section": "Dataset",
-    "text": "Dataset\n\nbristolbaydata &lt;- read.csv(\"salmondata/Alaska Statewide Salmon Landings by Area and Species 1985-present Fish Tickets.csv\")"
+    "text": "Dataset\n\nbristolbaydata &lt;- read.csv(\"salmondata/rawsalmon.csv\")"
   },
   {
     "objectID": "proposal.html#reason-for-choosing-this-dataset",
@@ -61,5 +61,75 @@
     "title": "Fish populations in Bristol Bay, AK",
     "section": "Plan of Attack",
     "text": "Plan of Attack\nWeek 11:\n\nTidy the dataset (Harper)\nIdentify relevant policy changes around Bristol Bay (Gus)\nGet environmental data to associate with salmon data (Emma)\nDraft the code for visualization (Everyone)\n\nWeek 12:\n\nGet peer reviewed\nDraft writeup (Harper & Gus)\nFinalize code (Everyone)\n\nWeek 13:\n\nDevelop presentation (Emma)\nPresent the project\nContinue working on writeup (Everyone)"
+  },
+  {
+    "objectID": "presentation.html#background",
+    "href": "presentation.html#background",
+    "title": "Bristol Bay Salmon",
+    "section": "Background",
+    "text": "Background\nCommercial fishing in Alaska is a huge industry, as salmon is the main export product of the state after oil and natural gas. Commercial fishing contributes ~5% of Alaska’s economy.\nSalmon harvest in Alaska accounts for ~80% of the total North American wild-caught salmon.\nCommercial fishing regulation changes combined with salmon habitat destruction and climate change leave fishermen constantly speculating about the effects of regulation changes on salmon populations."
+  },
+  {
+    "objectID": "presentation.html#methods-text-analysis",
+    "href": "presentation.html#methods-text-analysis",
+    "title": "Bristol Bay Salmon",
+    "section": "Methods: Text Analysis",
+    "text": "Methods: Text Analysis"
+  },
+  {
+    "objectID": "presentation.html#methods-salmon-data",
+    "href": "presentation.html#methods-salmon-data",
+    "title": "Bristol Bay Salmon",
+    "section": "Methods: Salmon Data",
+    "text": "Methods: Salmon Data"
+  },
+  {
+    "objectID": "presentation.html#results-text-analysis",
+    "href": "presentation.html#results-text-analysis",
+    "title": "Bristol Bay Salmon",
+    "section": "Results: Text Analysis",
+    "text": "Results: Text Analysis"
+  },
+  {
+    "objectID": "presentation.html#results-salmon-data",
+    "href": "presentation.html#results-salmon-data",
+    "title": "Bristol Bay Salmon",
+    "section": "Results: Salmon Data",
+    "text": "Results: Salmon Data"
+  },
+  {
+    "objectID": "presentation.html#methods-salmon-data-text-analysis",
+    "href": "presentation.html#methods-salmon-data-text-analysis",
+    "title": "Bristol Bay Salmon",
+    "section": "Methods: Salmon Data, Text Analysis",
+    "text": "Methods: Salmon Data, Text Analysis\nSalmon data from Alaska Department of Fish and Game\n-every observation is one species of fish in one area of Alaska during one year\n-number of fish, landed weight of fish, number of commercial fishing permits issued, number of processors, number of fishing vessels"
+  },
+  {
+    "objectID": "presentation.html#methods-salmon-data-text-analysis-1",
+    "href": "presentation.html#methods-salmon-data-text-analysis-1",
+    "title": "Bristol Bay Salmon",
+    "section": "Methods: Salmon Data, Text Analysis",
+    "text": "Methods: Salmon Data, Text Analysis\nCommercial fishing regulation data in Alaska doesn’t exist, but\nThe AK Legislature has a system of websites that show every single resolution and bill passed from the 18th legislature (1993) to the 33rd legislature (2023)."
+  },
+  {
+    "objectID": "presentation.html#methods-salmon-data-text-analysis-2",
+    "href": "presentation.html#methods-salmon-data-text-analysis-2",
+    "title": "Bristol Bay Salmon",
+    "section": "Methods: Salmon Data, Text Analysis",
+    "text": "Methods: Salmon Data, Text Analysis"
+  },
+  {
+    "objectID": "presentation.html#results-salmon-data-1",
+    "href": "presentation.html#results-salmon-data-1",
+    "title": "Bristol Bay Salmon",
+    "section": "Results: Salmon Data",
+    "text": "Results: Salmon Data"
+  },
+  {
+    "objectID": "presentation.html#results-shiny-app",
+    "href": "presentation.html#results-shiny-app",
+    "title": "Bristol Bay Salmon",
+    "section": "Results: Shiny App",
+    "text": "Results: Shiny App"
   }
 ]
