@@ -109,6 +109,9 @@ salmontextanalysisdf %>%
 
 ```
 
+
+
+
 ```{r}
 legis <- read_csv("fish_and_game.csv")
 leng <- length(legis$Legislature)
@@ -175,7 +178,23 @@ wordplot <- ggplot(data = legis_word_longer, aes(x = Year, y = times_mentioned, 
 wordplot
 ```
 
-
+```{r}
+yearly_word <- legis_word_longer %>%
+  group_by(Year, word) %>%
+  summarise(count = sum(times_mentioned))
+glimpse(yearly_word)
+```
+```{r}
+yearlyplot <- ggplot(data = yearly_word, aes(x = Year, y = count, color = word)) +
+  geom_line() +
+  theme_minimal() + 
+  labs(
+    title = "Frequency of Keywords in Alaska State Legislature by Year", 
+    x = "Year", 
+    y = "Frequency"
+  )
+yearlyplot
+```
 
 ```{r}
 library(shiny)

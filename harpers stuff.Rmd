@@ -131,5 +131,70 @@ wordplot <- ggplot(data = legis_word_longer, aes(x = Year, y = times_mentioned, 
 wordplot
 ```
 
+```{r}
+yearly_word <- legis_word_longer %>%
+  group_by(Year, word) %>%
+  summarise(count = sum(times_mentioned))
+glimpse(yearly_word)
+```
+```{r}
+yearlyplot <- ggplot(data = yearly_word, aes(x = Year, y = count, color = word)) +
+  geom_line() +
+  theme_minimal() + 
+  labs(
+    title = "Frequency of Keywords in Alaska State Legislature by Year", 
+    x = "Year", 
+    y = "Frequency"
+  )
+yearlyplot
+```
+
+
+```{r}
+scaled_legis_word <- legis_word %>%
+  select(-FULL_TEXT) %>% 
+  mutate(fish = scale(fish), 
+         fisheries = scale(fisheries), 
+         limit = scale(limit), 
+         permit = scale(permit), 
+         salmon = scale(salmon), 
+         vessel = scale(vessel)
+  ) %>%
+  pivot_longer(c('fish', 'fisheries', 'permit', 'vessel', 'salmon', 'limit'), names_to = "word", values_to = "times_mentioned") %>%
+  mutate(Year = Legislature) %>%
+  mutate(Year = case_when(
+    Legislature == 33 ~ 2023,
+    Legislature == 32 ~ 2021,
+    Legislature == 31 ~ 2019,
+    Legislature == 30 ~ 2017,
+    Legislature == 29 ~ 2015,
+    Legislature == 28 ~ 2013,
+    Legislature == 27 ~ 2011,
+    Legislature == 26 ~ 2009,
+    Legislature == 25 ~ 2007,
+    Legislature == 24 ~ 2005,
+    Legislature == 23 ~ 2003,
+    Legislature == 22 ~ 2001,
+    Legislature == 21 ~ 1999,
+    Legislature == 20 ~ 1997,
+    Legislature == 19 ~ 1995,
+    Legislature == 18 ~ 1993,
+    Legislature == 17 ~ 1991,
+    Legislature == 16 ~ 1989,
+    Legislature == 15 ~ 1987,
+    Legislature == 14 ~ 1985
+  ))
+
+scaleplot <- ggplot(data = scaled_legis_word, aes(x = Year, y = times_mentioned, fill = word)) +
+  geom_bar(position='stack', stat='identity') +
+  theme_minimal() + 
+  labs(
+    title = "Frequency of Keywords in Alaska State Legislature by Year", 
+    x = "Year", 
+    y = "Frequency"
+  )
+scaleplot
+```
+
 
 
