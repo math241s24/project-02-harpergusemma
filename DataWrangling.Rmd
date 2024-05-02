@@ -177,7 +177,7 @@ wordplot
 
 
 
-
+```{r}
 library(shiny)
 library(tidyverse)
 library(readr)
