@@ -19,13 +19,18 @@ execute:
 To obtain the text data from the Alaska legislature on fishing, we scraped the website for all the bills within the "Fish and Game" subject. Using the `rvest` package and significant help from the Data Lab, we were able to scrape the site and create a data frame with each bill from each year on the subject of Fish and Game.
 
 ```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+```{r}
 legis <- read_csv("fish_and_game.csv")
 head(legis)
 ```
 
 We then created a function which divided the `legis` dataset by line and subsetted it into the lines which contained a given keyword. The length of this subset was appended into a new dataframe providing the number of lines containing the keyword for each bill. This was then organized by year into `legis_word_longer`.
 
-```{r}
+```{r, echo=TRUE}
 leng <- length(legis$Legislature)
 
 getti <- function(word){
