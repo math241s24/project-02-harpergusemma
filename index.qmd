@@ -23,7 +23,7 @@ legis <- read_csv("fish_and_game.csv")
 head(legis)
 ```
 
-We then created a function which divided the `legis` dataset by line and subsetted it into the lines which contained a given keyword. The length of this subset was appended into a new dataframe providing the number of lines containing the keyword for each bill. This was then organized by year.
+We then created a function which divided the `legis` dataset by line and subsetted it into the lines which contained a given keyword. The length of this subset was appended into a new dataframe providing the number of lines containing the keyword for each bill. This was then organized by year into `legis_word_longer`.
 
 ```{r}
 leng <- length(legis$Legislature)
