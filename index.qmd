@@ -13,3 +13,67 @@ execute:
 ## Abstract
 
 ## Introduction
+
+## Methods
+
+To obtain the text data from the Alaska legislature on fishing, we scraped the website for all the bills within the "Fish and Game" subject. Using the `rvest` package and significant help from the Data Lab, we were able to scrape the site and create a data frame with each bill from each year on the subject of Fish and Game.
+
+```{r}
+legis <- read_csv("fish_and_game.csv")
+head(legis)
+```
+
+We then created a function which divided the `legis` dataset by line and subsetted it into the lines which contained a given keyword. The length of this subset was appended into a new dataframe providing the number of lines containing the keyword for each bill. This was then organized by year.
+
+```{r}
+leng <- length(legis$Legislature)
+
+getti <- function(word){
+  word_freq <- c()
+  for (i in 1:leng){ #looping through each bill
+    legis_line <- legis$FULL_TEXT[i] %>%
+    str_split("(?<=\\.)\\s*") %>% 
+    pluck(1) 
+    word_freq_i <- legis_line %>%
+    str_subset(word) %>%
+    length()
+    word_freq <- append(word_freq, word_freq_i)
+  }
+  return(word_freq) #returns a vector of the keyword counts for each bill
+}
+
+legis_word <- legis %>% 
+  mutate(fish = getti("[F/f]ish")) %>%
+  mutate(fisheries = getti("[F/f]isher[ies/y]")) %>%
+  mutate(permit = getti("[P/p]ermit")) %>%
+  mutate(vessel = getti("[V/v]essel")) %>%
+  mutate(salmon = getti("[S/s]almon")) %>%
+  mutate(limit = getti("[L/l]imit")) 
+legis_word_longer <- legis_word %>% 
+  select(-FULL_TEXT) %>%
+  pivot_longer(c('fish', 'fisheries', 'permit', 'vessel', 'salmon', 'limit'), names_to = "word", values_to = "times_mentioned") %>%
+  mutate(Year = Legislature) %>%
+  mutate(Year = case_when(
+    Legislature == 33 ~ 2023,
+    Legislature == 32 ~ 2021,
+    Legislature == 31 ~ 2019,
+    Legislature == 30 ~ 2017,
+    Legislature == 29 ~ 2015,
+    Legislature == 28 ~ 2013,
+    Legislature == 27 ~ 2011,
+    Legislature == 26 ~ 2009,
+    Legislature == 25 ~ 2007,
+    Legislature == 24 ~ 2005,
+    Legislature == 23 ~ 2003,
+    Legislature == 22 ~ 2001,
+    Legislature == 21 ~ 1999,
+    Legislature == 20 ~ 1997,
+    Legislature == 19 ~ 1995,
+    Legislature == 18 ~ 1993,
+    Legislature == 17 ~ 1991,
+    Legislature == 16 ~ 1989,
+    Legislature == 15 ~ 1987,
+    Legislature == 14 ~ 1985
+  ))
+head(legis_word_longer)
+```
