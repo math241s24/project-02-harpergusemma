@@ -25,7 +25,8 @@ write.csv(salmon, "salmondata/salmon.csv")
 
 ```{r}
 ggplot(salmon, aes(x = Year, y = num_fish)) +
-  geom_line(stat = "identity", aes(color = species))
+  geom_col(stat = "identity", aes(fill = species), bins = 30) +
+  labs(y = "Number of landed fish")
 ```
 
 ```{r}
@@ -184,6 +185,7 @@ yearly_word <- legis_word_longer %>%
   summarise(count = sum(times_mentioned))
 glimpse(yearly_word)
 ```
+
 ```{r}
 yearlyplot <- ggplot(data = yearly_word, aes(x = Year, y = count, color = word)) +
   geom_line() +
@@ -200,6 +202,7 @@ yearlyplot
 library(shiny)
 library(tidyverse)
 library(readr)
+library(bslib)
 
 salmon <- read_csv("salmondata/salmon.csv")
 

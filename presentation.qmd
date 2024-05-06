@@ -79,4 +79,5 @@ The AK Legislature has a system of websites that show every single resolution an
 ![](fishcount.png){fig-align="center"}
 
 ## Results: Shiny App
+
 ![](appscreenshot.png){fig-align="center"}
