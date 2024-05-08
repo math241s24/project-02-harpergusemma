@@ -1,0 +1,14 @@
+{
+  "hash": "2e84d251a1c25c281f0610f19e48474f",
+  "result": {
+    "markdown": "---\ntitle: \"Fish Shiny App\"\nauthors: \"Emma Campbell, Gus Compton, Harper Lethin\"\nformat: html\neditor: visual\nruntime: shiny\n---\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nshiny_app_ui <- page_sidebar(\n  sidebar = sidebar(\n    varSelectInput(\"xvar\", \"X variable\", salmon, selected = \"Year\"),\n    varSelectInput(\"yvar\", \"Y variable\", salmon, selected = \"num_fish\"),\n    checkboxGroupInput(\n      \"species\", \"Filter by species\",\n      choices = unique(salmon$species), \n      selected = unique(salmon$species)\n    ),\n    hr(), # Add a horizontal rule\n    checkboxInput(\"by_species\", \"Show species\", TRUE),\n  ),\n  plotOutput(\"distPlot\")\n)\n```\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\nshiny_app_server <- function(input, output, session) {\n  subsetted <- reactive({\n    req(input$species)\n    salmon |> filter(species %in% input$species)\n  })\n  \n  output$distPlot <- renderPlot({\n    p <- ggplot(subsetted(), aes(!!input$xvar, !!input$yvar)) + list(\n      theme(legend.position = \"bottom\"),\n      if (input$by_species) aes(color = species),\n      geom_point(),\n      geom_smooth(method = 'lm')\n    )\n    \n    p\n  }, res = 100)\n}\n```\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\nshiny::shinyApp(ui = shiny_app_ui, server = shiny_app_server)\n```\n\n::: {.cell-output-display}\n`<iframe data-deferred-src=\"app20831ce3f6659979e79750d60d46f261/?w=&amp;__subapp__=1\" width=\"100%\" height=\"400\" class=\"shiny-frame shiny-frame-deferred\"></iframe>`{=html}\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

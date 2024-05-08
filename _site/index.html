@@ -130,6 +130,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="./about.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./shinyapp.html" rel="" target="">
+ <span class="menu-text">Shiny App</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
@@ -153,8 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#methods-data-wrangling" id="toc-methods-data-wrangling" class="nav-link" data-scroll-target="#methods-data-wrangling">Methods: Data Wrangling</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
   </ul>
@@ -187,9 +190,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="abstract" class="level2">
-<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-</section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>Commercial fishing in Alaska is a huge industry, as salmon is the main export product of the state after oil and natural gas. Commercial fishing contributes ~5% of Alaska’s economy, and salmon harvest in Alaska accounts for ~80% of the total North American wild-caught salmon. Commercial fishing regulation changes combined with salmon habitat destruction and climate change leave fishermen and salmon enthusiasts constantly speculating about the effects of regulation changes on salmon populations.</p>
@@ -199,6 +199,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="methods-data-wrangling">Methods: Data Wrangling</h2>
 <p>To obtain the text data from the <a href="https://www.akleg.gov/basis/Home/BillsandLaws/32">Alaska legislature</a> on fishing, we scraped the website for all the bills within the “Fish and Game” subject. Using the <code>rvest</code> package and significant help from the Data Lab, we were able to scrape the site and create a data frame with each bill from each year on the subject of Fish and Game.</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>legis <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"fish_and_game.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 428 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (3): Name, Link, FULL_TEXT
+dbl (1): Legislature
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(legis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   Legislature Name    Link                                             FULL_TEXT
@@ -213,56 +225,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>We then created a function which divided the <code>legis</code> dataset by line and subsetted it into the lines which contained a given keyword. The length of this subset was appended into a new dataframe providing the number of lines containing the keyword for each bill. This was then organized by year into <code>legis_word_longer</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>leng <span class="ot">&lt;-</span> <span class="fu">length</span>(legis<span class="sc">$</span>Legislature)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>getti <span class="ot">&lt;-</span> <span class="cf">function</span>(word){</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  word_freq <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>leng){ <span class="co">#looping through each bill</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    legis_line <span class="ot">&lt;-</span> legis<span class="sc">$</span>FULL_TEXT[i] <span class="sc">%&gt;%</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_split</span>(<span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">.)</span><span class="sc">\\</span><span class="st">s*"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pluck</span>(<span class="dv">1</span>) </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    word_freq_i <span class="ot">&lt;-</span> legis_line <span class="sc">%&gt;%</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_subset</span>(word) <span class="sc">%&gt;%</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>()</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    word_freq <span class="ot">&lt;-</span> <span class="fu">append</span>(word_freq, word_freq_i)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(word_freq) <span class="co">#returns a vector of the keyword counts for each bill</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>legis_word <span class="ot">&lt;-</span> legis <span class="sc">%&gt;%</span> </span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fish =</span> <span class="fu">getti</span>(<span class="st">"[F/f]ish"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fisheries =</span> <span class="fu">getti</span>(<span class="st">"[F/f]isher[ies/y]"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">permit =</span> <span class="fu">getti</span>(<span class="st">"[P/p]ermit"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vessel =</span> <span class="fu">getti</span>(<span class="st">"[V/v]essel"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">salmon =</span> <span class="fu">getti</span>(<span class="st">"[S/s]almon"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">limit =</span> <span class="fu">getti</span>(<span class="st">"[L/l]imit"</span>)) </span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>legis_word_longer <span class="ot">&lt;-</span> legis_word <span class="sc">%&gt;%</span> </span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>FULL_TEXT) <span class="sc">%&gt;%</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(<span class="st">'fish'</span>, <span class="st">'fisheries'</span>, <span class="st">'permit'</span>, <span class="st">'vessel'</span>, <span class="st">'salmon'</span>, <span class="st">'limit'</span>), <span class="at">names_to =</span> <span class="st">"word"</span>, <span class="at">values_to =</span> <span class="st">"times_mentioned"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> Legislature) <span class="sc">%&gt;%</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">case_when</span>(</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">33</span> <span class="sc">~</span> <span class="dv">2023</span>,</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">32</span> <span class="sc">~</span> <span class="dv">2021</span>,</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">31</span> <span class="sc">~</span> <span class="dv">2019</span>,</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">30</span> <span class="sc">~</span> <span class="dv">2017</span>,</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">29</span> <span class="sc">~</span> <span class="dv">2015</span>,</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">28</span> <span class="sc">~</span> <span class="dv">2013</span>,</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">27</span> <span class="sc">~</span> <span class="dv">2011</span>,</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">26</span> <span class="sc">~</span> <span class="dv">2009</span>,</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">25</span> <span class="sc">~</span> <span class="dv">2007</span>,</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">24</span> <span class="sc">~</span> <span class="dv">2005</span>,</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">23</span> <span class="sc">~</span> <span class="dv">2003</span>,</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">22</span> <span class="sc">~</span> <span class="dv">2001</span>,</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">21</span> <span class="sc">~</span> <span class="dv">1999</span>,</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">20</span> <span class="sc">~</span> <span class="dv">1997</span>,</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">19</span> <span class="sc">~</span> <span class="dv">1995</span>,</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">18</span> <span class="sc">~</span> <span class="dv">1993</span>,</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">17</span> <span class="sc">~</span> <span class="dv">1991</span>,</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">16</span> <span class="sc">~</span> <span class="dv">1989</span>,</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">15</span> <span class="sc">~</span> <span class="dv">1987</span>,</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">14</span> <span class="sc">~</span> <span class="dv">1985</span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(legis_word_longer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>leng <span class="ot">&lt;-</span> <span class="fu">length</span>(legis<span class="sc">$</span>Legislature)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>getti <span class="ot">&lt;-</span> <span class="cf">function</span>(word){</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  word_freq <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>leng){ <span class="co">#looping through each bill</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    legis_line <span class="ot">&lt;-</span> legis<span class="sc">$</span>FULL_TEXT[i] <span class="sc">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_split</span>(<span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">.)</span><span class="sc">\\</span><span class="st">s*"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pluck</span>(<span class="dv">1</span>) </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    word_freq_i <span class="ot">&lt;-</span> legis_line <span class="sc">%&gt;%</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_subset</span>(word) <span class="sc">%&gt;%</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>()</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    word_freq <span class="ot">&lt;-</span> <span class="fu">append</span>(word_freq, word_freq_i)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(word_freq) <span class="co">#returns a vector of the keyword counts for each bill</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>legis_word <span class="ot">&lt;-</span> legis <span class="sc">%&gt;%</span> </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fish =</span> <span class="fu">getti</span>(<span class="st">"[F/f]ish"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fisheries =</span> <span class="fu">getti</span>(<span class="st">"[F/f]isher[ies/y]"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">permit =</span> <span class="fu">getti</span>(<span class="st">"[P/p]ermit"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vessel =</span> <span class="fu">getti</span>(<span class="st">"[V/v]essel"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">salmon =</span> <span class="fu">getti</span>(<span class="st">"[S/s]almon"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">limit =</span> <span class="fu">getti</span>(<span class="st">"[L/l]imit"</span>)) </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>legis_word_longer <span class="ot">&lt;-</span> legis_word <span class="sc">%&gt;%</span> </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>FULL_TEXT) <span class="sc">%&gt;%</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(<span class="st">'fish'</span>, <span class="st">'fisheries'</span>, <span class="st">'permit'</span>, <span class="st">'vessel'</span>, <span class="st">'salmon'</span>, <span class="st">'limit'</span>), <span class="at">names_to =</span> <span class="st">"word"</span>, <span class="at">values_to =</span> <span class="st">"times_mentioned"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> Legislature) <span class="sc">%&gt;%</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">case_when</span>(</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">33</span> <span class="sc">~</span> <span class="dv">2023</span>,</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">32</span> <span class="sc">~</span> <span class="dv">2021</span>,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">31</span> <span class="sc">~</span> <span class="dv">2019</span>,</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">30</span> <span class="sc">~</span> <span class="dv">2017</span>,</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">29</span> <span class="sc">~</span> <span class="dv">2015</span>,</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">28</span> <span class="sc">~</span> <span class="dv">2013</span>,</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">27</span> <span class="sc">~</span> <span class="dv">2011</span>,</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">26</span> <span class="sc">~</span> <span class="dv">2009</span>,</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">25</span> <span class="sc">~</span> <span class="dv">2007</span>,</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">24</span> <span class="sc">~</span> <span class="dv">2005</span>,</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">23</span> <span class="sc">~</span> <span class="dv">2003</span>,</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">22</span> <span class="sc">~</span> <span class="dv">2001</span>,</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">21</span> <span class="sc">~</span> <span class="dv">1999</span>,</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">20</span> <span class="sc">~</span> <span class="dv">1997</span>,</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">19</span> <span class="sc">~</span> <span class="dv">1995</span>,</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">18</span> <span class="sc">~</span> <span class="dv">1993</span>,</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">17</span> <span class="sc">~</span> <span class="dv">1991</span>,</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">16</span> <span class="sc">~</span> <span class="dv">1989</span>,</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">15</span> <span class="sc">~</span> <span class="dv">1987</span>,</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    Legislature <span class="sc">==</span> <span class="dv">14</span> <span class="sc">~</span> <span class="dv">1985</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(legis_word_longer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 6
   Legislature Name    Link                           word  times_mentioned  Year
@@ -284,6 +296,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Number of commercial fishing processor boats</p></li>
 <li><p>Number of commercial fishing vessels</p></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>salmon <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"salmondata/rawsalmon.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1902 Columns: 9
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): Area, Species Name
+dbl (7): Year, Number Of Fish (estimated), Landed Weight (lbs), Whole Weight...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>salmon <span class="ot">&lt;-</span> salmon <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">species =</span> <span class="st">`</span><span class="at">Species Name</span><span class="st">`</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">num_fish =</span> <span class="st">`</span><span class="at">Number Of Fish (estimated)</span><span class="st">`</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">land_weight =</span> <span class="st">`</span><span class="at">Landed Weight (lbs)</span><span class="st">`</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">whole_weight =</span> <span class="st">`</span><span class="at">Whole Weight (lbs)</span><span class="st">`</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">num_permit =</span> <span class="st">`</span><span class="at">Permit Count</span><span class="st">`</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">num_processor =</span> <span class="st">`</span><span class="at">Processor Count</span><span class="st">`</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">num_vessel =</span> <span class="st">`</span><span class="at">Vessel Count</span><span class="st">`</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(salmon, <span class="st">"salmondata/salmon.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>This data was then used to create a shiny app that allows users to compare all variables in the salmon data set with each other, with the ability to isolate by specific salmon species if they are more interested in one than the others. This shiny app was created using the code written above the app in results.</p>
 <p>We also compared data on text with fish count and permit count data by creating overlapping time series, to allow for qualitative assessments of potentially significant patterns.</p>
 </section>
@@ -295,10 +328,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="billwordfreq.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
+<p>We also found that the amount of different words used across time is variable, with large spikes in mentions of important fish related terms in 1998, 2005, 2017, and 2022.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="yearlyplot.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 <p>The shiny app we created shows</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">page_sidebar</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> <span class="fu">sidebar</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">varSelectInput</span>(<span class="st">"xvar"</span>, <span class="st">"X variable"</span>, salmon, <span class="at">selected =</span> <span class="st">"Year"</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">varSelectInput</span>(<span class="st">"yvar"</span>, <span class="st">"Y variable"</span>, salmon, <span class="at">selected =</span> <span class="st">"num_fish"</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">checkboxGroupInput</span>(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"species"</span>, <span class="st">"Filter by species"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">choices =</span> <span class="fu">unique</span>(salmon<span class="sc">$</span>species), </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">selected =</span> <span class="fu">unique</span>(salmon<span class="sc">$</span>species)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hr</span>(), <span class="co"># Add a horizontal rule</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">checkboxInput</span>(<span class="st">"by_species"</span>, <span class="st">"Show species"</span>, <span class="cn">TRUE</span>),</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plotOutput</span>(<span class="st">"distPlot"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  subsetted <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(input<span class="sc">$</span>species)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    salmon <span class="sc">|&gt;</span> <span class="fu">filter</span>(species <span class="sc">%in%</span> input<span class="sc">$</span>species)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>distPlot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">subsetted</span>(), <span class="fu">aes</span>(<span class="sc">!!</span>input<span class="sc">$</span>xvar, <span class="sc">!!</span>input<span class="sc">$</span>yvar)) <span class="sc">+</span> <span class="fu">list</span>(</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>),</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (input<span class="sc">$</span>by_species) <span class="fu">aes</span>(<span class="at">color =</span> species),</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(),</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    p</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">res =</span> <span class="dv">100</span>)</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><iframe data-deferred-src="appe2ca0a8423b3a19167f064d8b64dce43/?w=&amp;__subapp__=1" width="100%" height="400" class="shiny-frame shiny-frame-deferred"></iframe></p>
+<p><iframe data-deferred-src="appe60fa154c722d2718b07efab654aa30b/?w=&amp;__subapp__=1" width="100%" height="400" class="shiny-frame shiny-frame-deferred"></iframe></p>
 </div>
 </div>
 

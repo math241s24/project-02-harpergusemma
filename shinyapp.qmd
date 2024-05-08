@@ -1,0 +1,69 @@
+---
+title: "Fish Shiny App"
+authors: "Emma Campbell, Gus Compton, Harper Lethin"
+format: html
+editor: visual
+runtime: shiny
+---
+
+```{r include=FALSE}
+#|context: setup
+library(tidyverse)
+library(dplyr)
+library(tidytext)
+library(textdata)
+library(tidymodels)
+library(openintro)
+library(mdsr)
+library(mosaicData)
+library(shiny)
+library(bslib)
+library(ggExtra)
+library(quarto)
+library(readr)
+
+salmon <- read_csv("salmondata/salmon.csv")
+```
+
+```{r}
+shiny_app_ui <- page_sidebar(
+  sidebar = sidebar(
+    varSelectInput("xvar", "X variable", salmon, selected = "Year"),
+    varSelectInput("yvar", "Y variable", salmon, selected = "num_fish"),
+    checkboxGroupInput(
+      "species", "Filter by species",
+      choices = unique(salmon$species), 
+      selected = unique(salmon$species)
+    ),
+    hr(), # Add a horizontal rule
+    checkboxInput("by_species", "Show species", TRUE),
+  ),
+  plotOutput("distPlot")
+)
+```
+
+```{r}
+shiny_app_server <- function(input, output, session) {
+  subsetted <- reactive({
+    req(input$species)
+    salmon |> filter(species %in% input$species)
+  })
+  
+  output$distPlot <- renderPlot({
+    p <- ggplot(subsetted(), aes(!!input$xvar, !!input$yvar)) + list(
+      theme(legend.position = "bottom"),
+      if (input$by_species) aes(color = species),
+      geom_point(),
+      geom_smooth(method = 'lm')
+    )
+    
+    p
+  }, res = 100)
+}
+
+```
+
+```{r}
+shiny::shinyApp(ui = shiny_app_ui, server = shiny_app_server)
+```
+

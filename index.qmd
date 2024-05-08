@@ -4,14 +4,9 @@ subtitle: "Project 2"
 authors: "Emma Campbell, Gus Compton, Harper Lethin"
 format: html
 editor: visual
-execute:
-  echo: false
-  warning: false
-  message: false
 runtime: shiny
 ---
 
-## Abstract
 
 ## Introduction
 
@@ -36,6 +31,7 @@ library(mosaicData)
 library(shiny)
 library(bslib)
 library(ggExtra)
+library(quarto)
 ```
 
 ```{r}
@@ -136,6 +132,10 @@ A visualization of the word frequencies across all Alaska Department of Fish and
 
 ![](billwordfreq.png){fig-align="center"}
 
+We also found that the amount of different words used across time is variable, with large spikes in mentions of important fish related terms in 1998, 2005, 2017, and 2022. 
+
+![](yearlyplot.png){fig-align="center"}
+
 The shiny app we created shows 
 
 ```{r shiny_app}
@@ -167,7 +167,6 @@ server <- function(input, output, session) {
       geom_point(),
       geom_smooth(method = 'lm')
     )
-    
     
     p
   }, res = 100)
