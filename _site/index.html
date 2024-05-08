@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="">
 
-<title>Project 2 -</title>
+<title>Project 2 - Fish Populations and Fish and Game Regulation in Alaska</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -163,7 +162,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
+  <li><a href="#methods-data-wrangling" id="toc-methods-data-wrangling" class="nav-link" data-scroll-target="#methods-data-wrangling">Methods: Data Wrangling</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
   </ul>
 </nav>
     </div>
@@ -172,6 +172,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
+<h1 class="title">Fish Populations and Fish and Game Regulation in Alaska</h1>
 <p class="subtitle lead">Project 2</p>
 </div>
 
@@ -179,6 +180,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Emma Campbell, Gus Compton, Harper Lethin </p>
+          </div>
+  </div>
     
   
     
@@ -194,9 +201,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Commercial fishing in Alaska is a huge industry, as salmon is the main export product of the state after oil and natural gas. Commercial fishing contributes ~5% of Alaska’s economy, and salmon harvest in Alaska accounts for ~80% of the total North American wild-caught salmon. Commercial fishing regulation changes combined with salmon habitat destruction and climate change leave fishermen and salmon enthusiasts constantly speculating about the effects of regulation changes on salmon populations.</p>
+<p>However, commercial salmon data is relatively inaccessible, and analysis of that data is even less accessible. Additionally, there is no existing public data set that examines the Alaska Fish and Game commercial fishing regulations. This project aims to give people a tool to examine the relationships between fish counts, permit/vessel/processor counts, and Fish and Game regulation sentiment analysis.</p>
 </section>
-<section id="methods" class="level2">
-<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="methods-data-wrangling" class="level2">
+<h2 class="anchored" data-anchor-id="methods-data-wrangling">Methods: Data Wrangling</h2>
 <p>To obtain the text data from the <a href="https://www.akleg.gov/basis/Home/BillsandLaws/32">Alaska legislature</a> on fishing, we scraped the website for all the bills within the “Fish and Game” subject. Using the <code>rvest</code> package and significant help from the Data Lab, we were able to scrape the site and create a data frame with each bill from each year on the subject of Fish and Game.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -274,6 +283,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5          33 HB0020A https://www.akleg.gov/basis/B… salm…               0  2023
 6          33 HB0020A https://www.akleg.gov/basis/B… limit               0  2023</code></pre>
 </div>
+</div>
+<p>Salmon data was sourced from the Alaska Department of Fish and Game website, which contains a dataset that includes the following variables per fishing area per year:</p>
+<ul>
+<li><p>Salmon species (Chinook, Chum, Coho, Pink, Sockeye)</p></li>
+<li><p>Number of fish landed</p></li>
+<li><p>Total weight of fish landed</p></li>
+<li><p>Number of issued commercial fishing permits</p></li>
+<li><p>Number of commercial fishing processor boats</p></li>
+<li><p>Number of commercial fishing vessels</p></li>
+</ul>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="billwordfreq.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
 </div>
 
 

@@ -100,7 +100,7 @@ Salmon data was sourced from the Alaska Department of Fish and Game website, whi
 
 -   Salmon species (Chinook, Chum, Coho, Pink, Sockeye)
 
--    Number of fish landed
+-   Number of fish landed
 
 -   Total weight of fish landed
 
@@ -125,3 +125,7 @@ write.csv(salmon, "salmondata/salmon.csv")
 ```
 
 ## Results
+
+A visualization of the word frequencies across all Alaska Department of Fish and Game bills shows that the words license, fisheries, conservation, and appropriations all appear more than 50,000 times cumulatively. This initial visualization shows the potential of our web-scraped word data frame from the fish and game regulations, and also shows that fish and game regulations appear to mention lots of commercial fishing-related topics.
+
+![](billwordfreq.png){fig-align="center"}
