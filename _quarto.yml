@@ -7,7 +7,7 @@ website:
   navbar:
     right:
       - icon: github
-        href: https://github.com/math241s24/project-02
+        href: https://math241s24.github.io/project-02-harpergusemma/
     left:
       - text: "Project"
         href: index.qmd
