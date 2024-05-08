@@ -39,8 +39,9 @@ server <- function(input, output, session) {
   output$distPlot <- renderPlot({
     p <- ggplot(subsetted(), aes(!!input$xvar, !!input$yvar)) + list(
       theme(legend.position = "bottom"),
-      if (input$by_species) aes(fill = species),
-      geom_histogram(stat = "identity")
+      if (input$by_species) aes(color = species),
+      geom_point(),
+      geom_smooth(method = 'lm')
     )
     
     

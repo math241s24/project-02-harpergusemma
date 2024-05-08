@@ -8,6 +8,7 @@ execute:
   echo: false
   warning: false
   message: false
+runtime: shiny
 ---
 
 ## Abstract
@@ -23,6 +24,7 @@ However, commercial salmon data is relatively inaccessible, and analysis of that
 To obtain the text data from the [Alaska legislature](https://www.akleg.gov/basis/Home/BillsandLaws/32) on fishing, we scraped the website for all the bills within the "Fish and Game" subject. Using the `rvest` package and significant help from the Data Lab, we were able to scrape the site and create a data frame with each bill from each year on the subject of Fish and Game.
 
 ```{r}
+#| include: false
 library(tidyverse)
 library(dplyr)
 library(tidytext)
@@ -124,8 +126,52 @@ salmon <- salmon %>% rename(species = `Species Name`,
 write.csv(salmon, "salmondata/salmon.csv")
 ```
 
+This data was then used to create a shiny app that allows users to compare all variables in the salmon data set with each other, with the ability to isolate by specific salmon species if they are more interested in one than the others. This shiny app was created using the code written above the app in results.
+
+We also compared data on text with fish count and permit count data by creating overlapping time series, to allow for qualitative assessments of potentially significant patterns. 
+
 ## Results
 
 A visualization of the word frequencies across all Alaska Department of Fish and Game bills shows that the words license, fisheries, conservation, and appropriations all appear more than 50,000 times cumulatively. This initial visualization shows the potential of our web-scraped word data frame from the fish and game regulations, and also shows that fish and game regulations appear to mention lots of commercial fishing-related topics.
 
 ![](billwordfreq.png){fig-align="center"}
+
+The shiny app we created shows 
+
+```{r shiny_app}
+ui <- page_sidebar(
+  sidebar = sidebar(
+    varSelectInput("xvar", "X variable", salmon, selected = "Year"),
+    varSelectInput("yvar", "Y variable", salmon, selected = "num_fish"),
+    checkboxGroupInput(
+      "species", "Filter by species",
+      choices = unique(salmon$species), 
+      selected = unique(salmon$species)
+    ),
+    hr(), # Add a horizontal rule
+    checkboxInput("by_species", "Show species", TRUE),
+  ),
+  plotOutput("distPlot")
+)
+
+server <- function(input, output, session) {
+  subsetted <- reactive({
+    req(input$species)
+    salmon |> filter(species %in% input$species)
+  })
+  
+  output$distPlot <- renderPlot({
+    p <- ggplot(subsetted(), aes(!!input$xvar, !!input$yvar)) + list(
+      theme(legend.position = "bottom"),
+      if (input$by_species) aes(color = species),
+      geom_point(),
+      geom_smooth(method = 'lm')
+    )
+    
+    
+    p
+  }, res = 100)
+}
+
+shinyApp(ui, server)
+```
