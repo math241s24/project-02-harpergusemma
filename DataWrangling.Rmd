@@ -200,6 +200,47 @@ yearlyplot
 ggsave("yearlyplot.png", yearlyplot)
 ```
 
+```{r}
+wordwide <- yearly_word %>% pivot_wider(names_from = word, values_from = count)
+salmonword <- left_join(wordwide, salmon, by = join_by(Year))
+salmonword$Year <- as.numeric(salmon$Year)
+
+coeff <- 10^6
+blue <- "cornflowerblue"
+
+wordcomp <- ggplot(salmonword, aes(x=Year)) +
+  
+  geom_histogram( aes(y=num_fish), stat = "identity", fill = blue) + 
+  geom_line( aes(y=fish*coeff)) + # Divide by 10 to get the same range than the temperature
+  
+  scale_y_continuous(
+    
+    # Features of the first axis
+    name = "Number of fish caught",
+    
+    # Add a second axis and specify its features
+    sec.axis = sec_axis(~.*coeff, name="Number of times fish mentioned in legislature")
+  )
+
+ggsave("wordsandfish.png", wordcomp)
+
+permitcomp <- ggplot(salmonword, aes(x=Year)) +
+  
+  geom_histogram( aes(y=num_fish), stat = "identity", fill = blue) + 
+  geom_line( aes(y=permit*coeff)) + # Divide by 10 to get the same range than the temperature
+  
+  scale_y_continuous(
+    
+    # Features of the first axis
+    name = "Number of fish caught",
+    
+    # Add a second axis and specify its features
+    sec.axis = sec_axis(~.*coeff, name="Number of times permit mentioned in legislature")
+  )
+
+ggsave("wordsandpermit.png", permitcomp)
+  
+```
 
 
 
