@@ -143,7 +143,7 @@ In the figure below, comparisons of fish count (blue histogram) and the amount o
 
 ![](wordsandpermit.png){fig-align="center", width = 300px}
 
-The shiny app we created shows how fish count, fish weight, processor count, permit count, vessel count and others compare as well as how they change across time. Interestingly, permit count decreased across time but fish counts didn't. This means perhaps that fish count per permit is increasing across time. 
+The shiny app we created shows how fish count, fish weight, processor count, permit count, vessel count and others compare as well as how they change across time. Interestingly, permit count decreased across time but fish counts didn't. This means perhaps that fish count per permit is increasing across time. If app is not visible on document, run this page in r or run app.R in salmonapp folder in repository to see finished app.
 
 ```{r shiny_app}
 ui <- page_sidebar(
