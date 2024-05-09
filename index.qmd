@@ -130,18 +130,18 @@ We also compared data on text with fish count and permit count data by creating 
 
 A visualization of the word frequencies across all Alaska Department of Fish and Game bills shows that the words license, fisheries, conservation, and appropriations all appear more than 50,000 times cumulatively. This initial visualization shows the potential of our web-scraped word data frame from the fish and game regulations, and also shows that fish and game regulations appear to mention lots of commercial fishing-related topics.
 
-![](billwordfreq.png){fig-align="center"}
+![](billwordfreq.png){fig-align="center", width = 300px}
 
 We also found that the amount of different words used across time is variable, with large spikes in mentions of important fish related terms in 1998, 2005, 2017, and 2022. 
 
-![](yearlyplot.png){fig-align="center"}
+![](yearlyplot.png){fig-align="center", width = 300px}
 In the figure below, comparisons of fish count (blue histogram) and the amount of times that fish were mentioned in the legislature (black line) showed no significant similarities, except for an interesting peak in the amount of times fish were mentioned in 1998 co-occuring with a dip in fish count.
 
-![](wordsandfish.png){fig-align="center"}
+![](wordsandfish.png){fig-align="center", width = 300px}
 
 In the figure below, comparisons of fish count (blue histogram) and the amount of times that permits were mentioned in the legislature (black line) also showed no significant similarities.
 
-![](wordsandpermit.png){fig-align="center"}
+![](wordsandpermit.png){fig-align="center", width = 300px}
 
 The shiny app we created shows how fish count, fish weight, processor count, permit count, vessel count and others compare as well as how they change across time. Interestingly, permit count decreased across time but fish counts didn't. This means perhaps that fish count per permit is increasing across time. 
 
