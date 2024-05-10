@@ -323,12 +323,12 @@ dbl (7): Year, Number Of Fish (estimated), Landed Weight (lbs), Whole Weight...
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
 <p>A visualization of the word frequencies across all Alaska Department of Fish and Game bills shows that the words license, fisheries, conservation, and appropriations all appear more than 50,000 times cumulatively. This initial visualization shows the potential of our web-scraped word data frame from the fish and game regulations, and also shows that fish and game regulations appear to mention lots of commercial fishing-related topics.</p>
-<p><img src="billwordfreq.png" >{fig-align=“center”, width = 300px}</p>
+<p><img src="billwordfreq.png" class="img-fluid">{fig-align=“center”, width = 300px}</p>
 <p>We also found that the amount of different words used across time is variable, with large spikes in mentions of important fish related terms in 1998, 2005, 2017, and 2022.</p>
-<p><img src="yearlyplot.png" >{fig-align=“center”, width = 300px} In the figure below, comparisons of fish count (blue histogram) and the amount of times that fish were mentioned in the legislature (black line) showed no significant similarities, except for an interesting peak in the amount of times fish were mentioned in 1998 co-occuring with a dip in fish count.</p>
-<p><img src="wordsandfish.png" >{fig-align=“center”, width = 300px}</p>
+<p><img src="yearlyplot.png" class="img-fluid">{fig-align=“center”, width = 300px} In the figure below, comparisons of fish count (blue histogram) and the amount of times that fish were mentioned in the legislature (black line) showed no significant similarities, except for an interesting peak in the amount of times fish were mentioned in 1998 co-occuring with a dip in fish count.</p>
+<p><img src="wordsandfish.png" class="img-fluid">{fig-align=“center”, width = 300px}</p>
 <p>In the figure below, comparisons of fish count (blue histogram) and the amount of times that permits were mentioned in the legislature (black line) also showed no significant similarities.</p>
-<p><img src="wordsandpermit.png" >{fig-align=“center”, width = 300px}</p>
+<p><img src="wordsandpermit.png" class="img-fluid">{fig-align=“center”, width = 300px}</p>
 <p>The shiny app we created shows how fish count, fish weight, processor count, permit count, vessel count and others compare as well as how they change across time. Interestingly, permit count decreased across time but fish counts didn’t. This means perhaps that fish count per permit is increasing across time. If app is not visible on document, run this page in r or run app.R in salmonapp folder in repository to see finished app.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">page_sidebar</span>(</span>
