@@ -7,7 +7,6 @@ editor: visual
 runtime: shiny
 ---
 
-
 ## Introduction
 
 Commercial fishing in Alaska is a huge industry, as salmon is the main export product of the state after oil and natural gas. Commercial fishing contributes \~5% of Alaska's economy, and salmon harvest in Alaska accounts for \~80% of the total North American wild-caught salmon. Commercial fishing regulation changes combined with salmon habitat destruction and climate change leave fishermen and salmon enthusiasts constantly speculating about the effects of regulation changes on salmon populations.
@@ -124,7 +123,7 @@ write.csv(salmon, "salmondata/salmon.csv")
 
 This data was then used to create a shiny app that allows users to compare all variables in the salmon data set with each other, with the ability to isolate by specific salmon species if they are more interested in one than the others. This shiny app was created using the code written above the app in results.
 
-We also compared data on text with fish count and permit count data by creating overlapping time series, to allow for qualitative assessments of potentially significant patterns. 
+We also compared data on text with fish count and permit count data by creating overlapping time series, to allow for qualitative assessments of potentially significant patterns.
 
 ## Results
 
@@ -132,10 +131,9 @@ A visualization of the word frequencies across all Alaska Department of Fish and
 
 ![](billwordfreq.png){fig-align="center", width = 300px}
 
-We also found that the amount of different words used across time is variable, with large spikes in mentions of important fish related terms in 1998, 2005, 2017, and 2022. 
+We also found that the amount of different words used across time is variable, with large spikes in mentions of important fish related terms in 1998, 2005, 2017, and 2022.
 
-![](yearlyplot.png){fig-align="center", width = 300px}
-In the figure below, comparisons of fish count (blue histogram) and the amount of times that fish were mentioned in the legislature (black line) showed no significant similarities, except for an interesting peak in the amount of times fish were mentioned in 1998 co-occuring with a dip in fish count.
+![](yearlyplot.png){fig-align="center", width = 300px} In the figure below, comparisons of fish count (blue histogram) and the amount of times that fish were mentioned in the legislature (black line) showed no significant similarities, except for an interesting peak in the amount of times fish were mentioned in 1998 co-occuring with a dip in fish count.
 
 ![](wordsandfish.png){fig-align="center", width = 300px}
 
